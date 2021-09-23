@@ -56,6 +56,12 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
      */
     private RNJitsiMeetUserInfo userInfo;
 
+
+    /**
+     * Flag for direct call or group call.
+     */
+    private Boolean isDirectCall;
+
     /**
      * Class used to build the immutable {@link RNJitsiMeetConferenceOptions} object.
      */
@@ -71,6 +77,7 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
         private Boolean audioMuted;
         private Boolean audioOnly;
         private Boolean videoMuted;
+        private Boolean isDirectCall;
 
         private RNJitsiMeetUserInfo userInfo;
 
@@ -169,6 +176,17 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
         }
 
         /**
+         * Indicates the conference will be joined with direct call feature only.
+         * @param direct - direct call indicator.
+         * @return - The {@link Builder} object itself so the method calls can be chained.
+         */
+        public Builder setDirectCall(boolean direct) {
+            this.isDirectCall = direct;
+
+            return this;
+        }
+
+        /**
          * Sets the welcome page enabled / disabled. The welcome page lists recent meetings and
          * calendar appointments and it's meant to be used by standalone applications. Defaults to
          * false.
@@ -223,6 +241,7 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
             options.audioOnly = this.audioOnly;
             options.videoMuted = this.videoMuted;
             options.userInfo = this.userInfo;
+            options.isDirectCall = this.isDirectCall
 
             return options;
         }
@@ -242,6 +261,8 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
         audioMuted = tmpAudioMuted == 0 ? null : tmpAudioMuted == 1;
         byte tmpAudioOnly = in.readByte();
         audioOnly = tmpAudioOnly == 0 ? null : tmpAudioOnly == 1;
+        byte tmpDirectCall = in.readByte();
+        isDirectCall = tmpDirectCall == 0 ? null : tmpDirectCall == 1;
         byte tmpVideoMuted = in.readByte();
         videoMuted = tmpVideoMuted == 0 ? null : tmpVideoMuted == 1;
     }
@@ -267,6 +288,9 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
         }
         if (audioOnly != null) {
             config.putBoolean("startAudioOnly", audioOnly);
+        }
+        if (isDirectCall != null) {
+            config.putBoolean("isDirectCall", isDirectCall);
         }
         if (videoMuted != null) {
             config.putBoolean("startWithVideoMuted", videoMuted);
@@ -328,6 +352,7 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
         dest.writeBundle(userInfo != null ? userInfo.asBundle() : new Bundle());
         dest.writeByte((byte) (audioMuted == null ? 0 : audioMuted ? 1 : 2));
         dest.writeByte((byte) (audioOnly == null ? 0 : audioOnly ? 1 : 2));
+        dest.writeByte((byte) (isDirectCall == null ? 0 : isDirectCall ? 1 : 2));
         dest.writeByte((byte) (videoMuted == null ? 0 : videoMuted ? 1 : 2));
     }
 
