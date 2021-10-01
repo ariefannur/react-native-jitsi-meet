@@ -241,7 +241,7 @@ public class RNJitsiMeetConferenceOptions implements Parcelable {
             options.audioOnly = this.audioOnly;
             options.videoMuted = this.videoMuted;
             options.userInfo = this.userInfo;
-            options.isDirectCall = this.isDirectCall
+            options.isDirectCall = this.isDirectCall;
 
             return options;
         }
